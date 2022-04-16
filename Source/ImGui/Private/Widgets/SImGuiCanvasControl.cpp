@@ -181,7 +181,7 @@ FReply SImGuiCanvasControl::OnDragOver(const FGeometry& MyGeometry, const FDragD
 		if (Operation->DragType == EDragType::Content)
 		{
 			// Content offset is in ImGui space, so we need to scale drag calculated in widget space.
-			ContentOffset = Operation->StartOffset + DragDelta / CanvasScale;
+			ContentOffset = Operation->StartOffset + (DragDelta / CanvasScale);
 		}
 		else
 		{
