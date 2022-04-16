@@ -80,6 +80,9 @@ FImGuiContextManager::~FImGuiContextManager()
 #if ENGINE_COMPATIBILITY_WITH_WORLD_POST_ACTOR_TICK
 	FWorldDelegates::OnWorldPostActorTick.RemoveAll(this);
 #endif
+
+	// Destroy context before Atlas
+	Contexts.Reset();
 }
 
 void FImGuiContextManager::Tick(float DeltaSeconds)

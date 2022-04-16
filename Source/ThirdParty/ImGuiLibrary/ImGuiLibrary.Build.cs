@@ -9,5 +9,7 @@ public class ImGuiLibrary : ModuleRules
 #endif
 	{
 		Type = ModuleType.External;
+
+		PublicDependencyModuleNames.Add("Core"); // Assertion macros, FVector
 	}
 }
