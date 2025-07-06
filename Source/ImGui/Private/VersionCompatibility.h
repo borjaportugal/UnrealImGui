@@ -33,3 +33,9 @@
 
 // Starting from version 4.26, FKey::IsFloatAxis and FKey::IsVectorAxis are deprecated and replaced with FKey::IsAxis[1|2|3]D methods.
 #define ENGINE_COMPATIBILITY_LEGACY_KEY_AXIS_API        BELOW_ENGINE_VERSION(4, 26)
+
+// Starting from version 5.2 Slate started using FVector2f (float based vector) rather than FVector2D (double based vector)
+#define ENGINE_COMPATIBILITY_LEGACY_SLATE_VECTOR2F      BELOW_ENGINE_VERSION(5, 2)
+
+// Starting from version 5.6 the bAllowShrinking boolean from containers was replaced by the enum EAllowShrinking
+#define ENGINE_COMPATIBILITY_LEGACY_ALLOW_SHRINKING     BELOW_ENGINE_VERSION(5, 6)
