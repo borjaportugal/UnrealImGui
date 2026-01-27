@@ -37,18 +37,10 @@ public:
 			ImGuiInterops::ToTextureIndex(ImGuiCommand.TextureId) };
 	}
 
-#if ENGINE_COMPATIBILITY_LEGACY_CLIPPING_API
-	// Transform and copy vertex data to target buffer (old data in the target buffer are replaced).
-	// @param OutVertexBuffer - Destination buffer
-	// @param Transform - Transform to apply to all vertices
-	// @param VertexClippingRect - Clipping rectangle for transformed Slate vertices
-	void CopyVertexData(TArray<FSlateVertex>& OutVertexBuffer, const FTransform2D& Transform, const FSlateRotatedRect& VertexClippingRect) const;
-#else
 	// Transform and copy vertex data to target buffer (old data in the target buffer are replaced).
 	// @param OutVertexBuffer - Destination buffer
 	// @param Transform - Transform to apply to all vertices
 	void CopyVertexData(TArray<FSlateVertex>& OutVertexBuffer, const FTransform2D& Transform) const;
-#endif // ENGINE_COMPATIBILITY_LEGACY_CLIPPING_API
 
 	// Transform and copy index data to target buffer (old data in the target buffer are replaced).
 	// Internal index buffer contains enough data to match the sum of NumElements from all draw commands.

@@ -254,15 +254,6 @@ int32 SImGuiCanvasControl::OnPaint(const FPaintArgs& Args, const FGeometry& Allo
 		const FLinearColor CanvasBorderColor = ScaleAlpha(DragRequest == EDragRequest::Content
 			? Colors::CanvasBorderHighlight : Colors::CanvasBorder, Opacity);
 
-#if ENGINE_COMPATIBILITY_LEGACY_CLIPPING_API
-		FSlateDrawElement::MakeBox(OutDrawElements, LayerId, PaintGeometry, &CanvasBorderBrush, MyCullingRect,
-			ESlateDrawEffect::None, CanvasMarginColor);
-
-		FSlateDrawElement::MakeBox(OutDrawElements, LayerId, PaintGeometry, &CanvasBorderBrush,
-			CanvasRect.ExtendBy(1).IntersectionWith(MyCullingRect), ESlateDrawEffect::None, CanvasBorderColor);
-
-#else
-
 		FSlateDrawElement::MakeBox(OutDrawElements, LayerId, PaintGeometry, &CanvasBorderBrush, ESlateDrawEffect::None,
 			CanvasMarginColor);
 
@@ -270,7 +261,6 @@ int32 SImGuiCanvasControl::OnPaint(const FPaintArgs& Args, const FGeometry& Allo
 		FSlateDrawElement::MakeBox(OutDrawElements, LayerId, PaintGeometry, &CanvasBorderBrush, ESlateDrawEffect::None,
 			CanvasBorderColor);
 		OutDrawElements.PopClip();
-#endif
 	}
 
 	const FSlateRect FrameRect = FSlateRect::FromPointAndExtent(
@@ -285,15 +275,10 @@ int32 SImGuiCanvasControl::OnPaint(const FPaintArgs& Args, const FGeometry& Allo
 		const FLinearColor FrameBorderColor = ScaleAlpha(DragRequest == EDragRequest::Canvas
 			? Colors::FrameBorderHighlight : Colors::FrameBorder, Opacity);
 
-#if ENGINE_COMPATIBILITY_LEGACY_CLIPPING_API
-		FSlateDrawElement::MakeBox(OutDrawElements, LayerId, PaintGeometry, &FrameBorderBrush,
-			FrameRect.ExtendBy(1).IntersectionWith(MyCullingRect), ESlateDrawEffect::None, FrameBorderColor);
-#else
 		OutDrawElements.PushClip(FSlateClippingZone{ FrameRect.ExtendBy(1) });
 		FSlateDrawElement::MakeBox(OutDrawElements, LayerId, PaintGeometry, &FrameBorderBrush, ESlateDrawEffect::None,
 			FrameBorderColor);
 		OutDrawElements.PopClip();
-#endif
 	}
 
 	return LayerId;

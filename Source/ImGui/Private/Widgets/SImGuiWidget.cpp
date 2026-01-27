@@ -637,18 +637,9 @@ int32 SImGuiWidget::OnPaint(const FPaintArgs& Args, const FGeometry& AllottedGeo
 		const FSlateRenderTransform& WidgetToScreen = AllottedGeometry.GetAccumulatedRenderTransform();
 		const FSlateRenderTransform ImGuiToScreen = RoundTranslation(ImGuiRenderTransform.Concatenate(WidgetToScreen));
 
-#if ENGINE_COMPATIBILITY_LEGACY_CLIPPING_API
-		// Convert clipping rectangle to format required by Slate vertex.
-		const FSlateRotatedRect VertexClippingRect{ MyClippingRect };
-#endif // ENGINE_COMPATIBILITY_LEGACY_CLIPPING_API
-
 		for (const auto& DrawList : ContextProxy->GetDrawData())
 		{
-#if ENGINE_COMPATIBILITY_LEGACY_CLIPPING_API
-			DrawList.CopyVertexData(VertexBuffer, ImGuiToScreen, VertexClippingRect);
-#else
 			DrawList.CopyVertexData(VertexBuffer, ImGuiToScreen);
-#endif // ENGINE_COMPATIBILITY_LEGACY_CLIPPING_API
 
 			int IndexBufferOffset = 0;
 			for (int CommandNb = 0; CommandNb < DrawList.NumCommands(); CommandNb++)
@@ -666,20 +657,12 @@ int32 SImGuiWidget::OnPaint(const FPaintArgs& Args, const FGeometry& AllottedGeo
 				// Transform clipping rectangle to screen space and apply to elements that we draw.
 				const FSlateRect ClippingRect = DrawCommand.ClippingRect.IntersectionWith(MyClippingRect);
 
-#if ENGINE_COMPATIBILITY_LEGACY_CLIPPING_API
-				// Get access to the Slate scissor rectangle defined in Slate Core API, so we can customize elements drawing.
-				extern SLATECORE_API TOptional<FShortRect> GSlateScissorRect;
-				TGuardValue<TOptional<FShortRect>> GSlateScissorRecGuard(GSlateScissorRect, FShortRect{ ClippingRect });
-#else
 				OutDrawElements.PushClip(FSlateClippingZone{ ClippingRect });
-#endif // ENGINE_COMPATIBILITY_LEGACY_CLIPPING_API
 
 				// Add elements to the list.
 				FSlateDrawElement::MakeCustomVerts(OutDrawElements, LayerId, Handle, VertexBuffer, IndexBuffer, nullptr, 0, 0);
 
-#if !ENGINE_COMPATIBILITY_LEGACY_CLIPPING_API
 				OutDrawElements.PopClip();
-#endif // ENGINE_COMPATIBILITY_LEGACY_CLIPPING_API
 			}
 		}
 	}

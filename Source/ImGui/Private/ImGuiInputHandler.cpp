@@ -254,11 +254,7 @@ bool UImGuiInputHandler::IsStopPlaySessionEvent(const FKeyEvent& KeyEvent) const
 	if (StopPlaySessionCommandInfo.IsValid())
 	{
 		const FInputChord InputChord(KeyEvent.GetKey(), KeyEvent.IsShiftDown(), KeyEvent.IsControlDown(), KeyEvent.IsAltDown(), KeyEvent.IsCommandDown());
-#if ENGINE_COMPATIBILITY_SINGLE_KEY_BINDING
-		const bool bHasActiveChord = (InputChord == StopPlaySessionCommandInfo->GetActiveChord().Get());
-#else
 		const bool bHasActiveChord = StopPlaySessionCommandInfo->HasActiveChord(InputChord);
-#endif
 		return bHasActiveChord && FPlayWorldCommands::GlobalPlayWorldActions->CanExecuteAction(StopPlaySessionCommandInfo.ToSharedRef());
 	}
 

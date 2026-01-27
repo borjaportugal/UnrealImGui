@@ -10,13 +10,7 @@
 #include <Styling/SlateTypes.h>
 #include <UObject/Object.h>
 
-// We use FSoftClassPath, which is supported by older and newer engine versions. Starting from 4.18, it is
-// a typedef of FSoftClassPath, which is also recognized by UHT.
-#if ENGINE_COMPATIBILITY_LEGACY_STRING_CLASS_REF
-#include <StringClassReference.h>
-#else
 #include <UObject/SoftObjectPath.h>
-#endif
 
 #include "ImGuiModuleSettings.generated.h"
 

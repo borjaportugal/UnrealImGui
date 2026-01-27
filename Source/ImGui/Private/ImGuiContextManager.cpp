@@ -66,9 +66,7 @@ FImGuiContextManager::FImGuiContextManager(FImGuiModuleSettings& InSettings)
 	BuildFontAtlas();
 
 	FWorldDelegates::OnWorldTickStart.AddRaw(this, &FImGuiContextManager::OnWorldTickStart);
-#if ENGINE_COMPATIBILITY_WITH_WORLD_POST_ACTOR_TICK
 	FWorldDelegates::OnWorldPostActorTick.AddRaw(this, &FImGuiContextManager::OnWorldPostActorTick);
-#endif
 }
 
 FImGuiContextManager::~FImGuiContextManager()
@@ -77,9 +75,7 @@ FImGuiContextManager::~FImGuiContextManager()
 
 	// Order matters because contexts can be created during World Tick Start events.
 	FWorldDelegates::OnWorldTickStart.RemoveAll(this);
-#if ENGINE_COMPATIBILITY_WITH_WORLD_POST_ACTOR_TICK
 	FWorldDelegates::OnWorldPostActorTick.RemoveAll(this);
-#endif
 
 	// Destroy context before Atlas
 	Contexts.Reset();
@@ -112,12 +108,6 @@ void FImGuiContextManager::Tick(float DeltaSeconds)
 	}
 }
 
-#if ENGINE_COMPATIBILITY_LEGACY_WORLD_ACTOR_TICK
-void FImGuiContextManager::OnWorldTickStart(ELevelTick TickType, float DeltaSeconds)
-{
-	OnWorldTickStart(GWorld, TickType, DeltaSeconds);
-}
-#endif
 
 void FImGuiContextManager::OnWorldTickStart(UWorld* World, ELevelTick TickType, float DeltaSeconds)
 {
@@ -130,13 +120,9 @@ void FImGuiContextManager::OnWorldTickStart(UWorld* World, ELevelTick TickType, 
 		ContextProxy.SetAsCurrent();
 
 		ContextProxy.DrawEarlyDebug();
-#if !ENGINE_COMPATIBILITY_WITH_WORLD_POST_ACTOR_TICK
-		ContextProxy.DrawDebug();
-#endif
 	}
 }
 
-#if ENGINE_COMPATIBILITY_WITH_WORLD_POST_ACTOR_TICK
 void FImGuiContextManager::OnWorldPostActorTick(UWorld* World, ELevelTick TickType, float DeltaSeconds)
 {
 	if (World && (World->WorldType == EWorldType::Game || World->WorldType == EWorldType::PIE
@@ -145,7 +131,6 @@ void FImGuiContextManager::OnWorldPostActorTick(UWorld* World, ELevelTick TickTy
 		GetWorldContextProxy(*World).DrawDebug();
 	}
 }
-#endif // ENGINE_COMPATIBILITY_WITH_WORLD_POST_ACTOR_TICK
 
 #if WITH_EDITOR
 FImGuiContextManager::FContextData& FImGuiContextManager::GetEditorContextData()

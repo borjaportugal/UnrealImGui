@@ -20,11 +20,7 @@ namespace
 {
 	FString GetSaveDirectory()
 	{
-#if ENGINE_COMPATIBILITY_LEGACY_SAVED_DIR
-		const FString SavedDir = FPaths::GameSavedDir();
-#else
 		const FString SavedDir = FPaths::ProjectSavedDir();
-#endif
 
 		FString Directory = FPaths::Combine(*SavedDir, TEXT("ImGui"));
 
