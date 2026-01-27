@@ -17,7 +17,8 @@ public class ImGui : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		bLegacyPublicIncludePaths = false;
-		ShadowVariableWarningLevel = WarningLevel.Error;
+        CppCompileWarningSettings.ShadowVariableWarningLevel = WarningLevel.Error;
+
 		bTreatAsEngineModule = true;
 
 		PublicIncludePaths.AddRange(
