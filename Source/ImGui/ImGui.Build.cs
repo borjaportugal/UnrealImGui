@@ -8,8 +8,6 @@ public class ImGui : ModuleRules
 {
 	public ImGui(ReadOnlyTargetRules Target) : base(Target)
     {
-        bool bBuildEditor = Target.bBuildEditor;
-
 		// Developer modules are automatically loaded only in editor builds but can be stripped out from other builds.
 		// Enable runtime loader, if you want this module to be automatically loaded in runtime builds (monolithic).
 		bool bEnableRuntimeLoader = true;
@@ -61,7 +59,7 @@ public class ImGui : ModuleRules
 			);
 
 
-		if (bBuildEditor)
+		if (Target.bBuildEditor)
 		{
 			PrivateDependencyModuleNames.AddRange(
 				new string[]
