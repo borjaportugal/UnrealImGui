@@ -21,7 +21,7 @@ public:
 	 */
 	static inline FImGuiModule& Get()
 	{
-		return FModuleManager::LoadModuleChecked<FImGuiModule>("DebugInspector_UnrealImGui");
+		return FModuleManager::LoadModuleChecked<FImGuiModule>("ImGui");
 	}
 
 	/**
@@ -31,7 +31,7 @@ public:
 	 */
 	static inline bool IsAvailable()
 	{
-		return FModuleManager::Get().IsModuleLoaded("DebugInspector_UnrealImGui");
+		return FModuleManager::Get().IsModuleLoaded("ImGui");
 	}
 
 #if IMGUI_WITH_OBSOLETE_DELEGATES
